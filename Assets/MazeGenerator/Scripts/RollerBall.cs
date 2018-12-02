@@ -61,8 +61,8 @@ public class RollerBall : MonoBehaviour {
         Vector2 touch = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
 
 
-       // transform.Translate(moveDir * speed * Time.deltaTime);
-       // transform.Translate(new Vector3(0, 0, 1));
+        transform.Translate(moveDir * speed * Time.deltaTime);
+        //transform.Translate(new Vector3(0, 0, ));
        // transform.position.z += 1;
 
         if (ViewCamera != null) {
