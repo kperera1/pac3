@@ -65,6 +65,11 @@ public class RollerBall : MonoBehaviour {
 			{ 
 
 				transform.Translate(new Vector3(forwardDir.x, 0, forwardDir.z)  * speed * Time.deltaTime, Space.World);
+=======
+        transform.Translate(moveDir * speed * Time.deltaTime);
+        //transform.Translate(new Vector3(0, 0, ));
+       // transform.position.z += 1;
+>>>>>>> 503df2d01a130ebd2ebd3707384477ef4fd655f8
 
 			}
             if (touch.y < -0.5f)
