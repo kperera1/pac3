@@ -11,14 +11,27 @@ public class RollerBall : MonoBehaviour {
 	public AudioClip HitSound = null;
 	public AudioClip CoinSound = null;
 
+	public Transform ToFollow;
+	public GameObject gameOverScreen;
+
 	private Rigidbody mRigidBody = null;
 	private AudioSource mAudioSource = null;
 	private bool mFloorTouched = false;
 
-	void Start () {
+
+
+
+    [SerializeField]
+    private Vector3 moveDir;
+
+    [SerializeField]
+    private float speed = 1;
+
+    void Start () {
 		mRigidBody = GetComponent<Rigidbody> ();
 		mAudioSource = GetComponent<AudioSource> ();
 	}
+
 
 	void FixedUpdate () {
 		if (mRigidBody != null) {
@@ -43,13 +56,33 @@ public class RollerBall : MonoBehaviour {
 				ViewCamera.transform.position = hit.point;
 			}else{
 				ViewCamera.transform.position = transform.position+direction;
+
+
+
+   void FixedUpdate () {
+
+		if (OVRInput.Get(OVRInput.Button.PrimaryTouchpad))
+		{
+			Vector2 touch = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
+            Vector3 forwardDir = ToFollow.forward.normalized;
+			if (touch.y > 0.5f) 
+			{ 
+
+				transform.Translate(new Vector3(forwardDir.x, 0, forwardDir.z)  * speed * Time.deltaTime, Space.World);
+a
 			}
-			ViewCamera.transform.LookAt(transform.position);
+            if (touch.y < -0.5f)
+            {
+				transform.Translate(new Vector3(forwardDir.x, 0, forwardDir.z) * speed * -1 * Time.deltaTime, Space.World);
+
+            }
 		}
+
+  
 	}
 
 	void OnCollisionEnter(Collision coll){
-		if (coll.gameObject.tag.Equals ("Floor")) {
+		if (coll.gameObject.tag == "Floor") {
 			mFloorTouched = true;
 			if (mAudioSource != null && HitSound != null && coll.relativeVelocity.y > .5f) {
 				mAudioSource.PlayOneShot (HitSound, coll.relativeVelocity.magnitude);
@@ -62,17 +95,24 @@ public class RollerBall : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision coll){
-		if (coll.gameObject.tag.Equals ("Floor")) {
+		if (coll.gameObject.tag == "Floor") {
 			mFloorTouched = false;
 		}
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.tag.Equals ("Coin")) {
+		if (other.gameObject.tag == "Coin") {
 			if(mAudioSource != null && CoinSound != null){
 				mAudioSource.PlayOneShot(CoinSound);
 			}
 			Destroy(other.gameObject);
 		}
+		if (other.gameObject.tag == "Enemy") {
+			gameOverScreen.SetActive(true);
+		}
 	}
 }
+
+		
+	
+
