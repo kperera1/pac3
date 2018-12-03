@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-
 
 //<summary>
 //Ball movement controlls and simple third-person-style camera
@@ -16,13 +14,6 @@ public class RollerBall : MonoBehaviour {
 	private Rigidbody mRigidBody = null;
 	private AudioSource mAudioSource = null;
 	private bool mFloorTouched = false;
-
-
-    [SerializeField]
-    private float speed;
-
-    [SerializeField]
-    private Vector3 moveDir;
 
 	void Start () {
 		mRigidBody = GetComponent<Rigidbody> ();
@@ -44,28 +35,7 @@ public class RollerBall : MonoBehaviour {
 				mRigidBody.AddForce(Vector3.up*200);
 			}
 		}
-        if(OVRInput.GetDown(OVRInput.Button.DpadRight))
-        {
-            transform.Rotate(new Vector3(0, 90, 0));
-        }
-        if (OVRInput.GetDown(OVRInput.Button.DpadLeft))
-        {
-            transform.Rotate(new Vector3(0, -90, 0));
-        }
-        if (OVRInput.Get(OVRInput.Button.DpadDown))
-        {
-            transform.Rotate(new Vector3(0, 180, 0));
-        }
-
-        //VRInput.Touch.PrimaryTouchpad;
-        Vector2 touch = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
-
-
-        transform.Translate(moveDir * speed * Time.deltaTime);
-        //transform.Translate(new Vector3(0, 0, ));
-       // transform.position.z += 1;
-
-        if (ViewCamera != null) {
+		if (ViewCamera != null) {
 			Vector3 direction = (Vector3.up*2+Vector3.back)*2;
 			RaycastHit hit;
 			Debug.DrawLine(transform.position,transform.position+direction,Color.red);
